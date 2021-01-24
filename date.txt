@@ -1,0 +1,305 @@
+create table if not exists 'DWD_GRID_BASICCONVERTERINFO'(
+ID STRING comment 'ID'
+,NAME STRING comment '设备名称'
+,DCVOLTAGELEVEL STRING comment '直流电压等级'
+,POLEID STRING comment '所属极'
+,DISPATCHORGID STRING comment '调度机构'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '换流器'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_BASICDCPOLEINFO'(
+ID STRING comment 'ID'
+,NAME STRING comment '直流极名称'
+,TYPE STRING comment '类型'
+,VOLTAGELEVEL STRING comment '电压等级'
+,CONVETERSTATIONID STRING comment '所属换流站'
+,DCSYSNAMEID STRING comment '所属直流极系统'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '直流极'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_BASICGRIDINFO'(
+ID STRING comment 'ID'
+,NAME STRING comment '电网名称'
+,GRIDLEVEL STRING comment '电网级别'
+,PARENTID STRING comment '上级电网'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '电网基本信息'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_CONVETERSTATION'(
+ID STRING comment 'ID'
+,ASSETID STRING comment '资产ID'
+,CONVERTERNAME STRING comment '换流站名称'
+,DCVOLTAGELEVEL STRING comment '直流电压等级'
+,ACVOLTAGELEVEL STRING comment '交流电压等级'
+,HVDCSYSID STRING comment '所属直流输电系统'
+,ACCESSNETWORK STRING comment '所属电网'
+,DISPATCHORGID STRING comment '调度机构'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '换流站'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_DCGROUNDSTATIONSYSTEM'(
+ID STRING comment 'ID'
+,DCELECTRODENAME STRING comment '名称'
+,DCGROUNDSYSTEM STRING comment '所属直流接地系统'
+,DISPATCHORGID STRING comment '调度机构'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '直流接地极站'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_DCGROUNDSYSTEM'(
+ID STRING comment 'ID'
+,DCGROUDINGNAME STRING comment '名称'
+,HVDCSYSID STRING comment '所属直流输电系统'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '直流接地系统'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_DCPOLESYSTEM'(
+ID STRING comment 'ID'
+,DCPOLENAME STRING comment '系统名称'
+,VOLTAGELEVEL STRING comment '电压等级'
+,POLARITY STRING comment '极性'
+,HVDCSYSID STRING comment '所属直流输电系统'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '直流极系统'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_DCSYSTEM'(
+ID STRING comment 'ID'
+,DCSYSNAME STRING comment '系统名称'
+,HVDCSYSTYPE STRING comment '分类'
+,VOLTAGELEVEL STRING comment '电压等级'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '直流输电系统'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT'(
+ID STRING comment 'ID'
+,STATIONNAME STRING comment '调度名称'
+,STATIONALIAS STRING comment '简称'
+,STATIONTYPE STRING comment '发电厂类型'
+,VOLTAGELEVEL STRING comment '电压等级'
+,INSTALLEDCAPACITY DOUBLE comment '装机容量'
+,WIRINGTYPE STRING comment '主接线类型'
+,ACCESSPOWERGRID STRING comment '接入电网'
+,GENERATIONCOMPANY STRING comment '所属发电公司'
+,DISPATCHORGID STRING comment '调度机构'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+,REGION DOUBLE comment '行政区划'
+,ALTITUDE DOUBLE comment '海拔'
+,LONGITUDE DOUBLE comment '经度'
+,LATITUDE DOUBLE comment '纬度'
+)comment '发电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_HEAT'(
+ID STRING comment '电厂ID'
+,FUELTYPE STRING comment '燃料类型'
+,COAL_STORAGE_CAPACITY DOUBLE comment '煤场储煤量'
+,INSTALLEDCAPACITY DOUBLE comment '核定装机总容量'
+,BOILER_COUNT BIGINT comment '锅炉台数'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '火电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_HYDRO'(
+ID STRING comment '电厂ID'
+,HYDROPOWER_TYPE STRING comment '水电厂类型'
+,TURBINE_TYPE STRING comment '水轮机类型'
+,DESIGN_HEAD BIGINT comment '设计水头'
+,SMALLEST_HEAD BIGINT comment '最小水头'
+,BIGGEST_HEAD BIGINT comment '最大水头'
+,GUARANTEED BIGINT comment '保证出力（MW）'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '水电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_NUCLEAR'(
+ID STRING comment '电厂ID'
+,INSTALLEDCAPACITY BIGINT comment '核定装机容量（MW）'
+,REACTOR_TYPE STRING comment '反应堆堆型'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '核电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_PUMPEDSTORAGE'(
+ID STRING comment '电厂ID'
+,PUMPINGRATIO BIGINT comment '发抽效率比'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '抽水蓄能电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_WIND'(
+ID STRING comment '电厂ID'
+,GIRDSUBSTATION STRING comment '并网变电站'
+,WINDTURBINES_NUM BIGINT comment '风机台数'
+,FGROUP_NUM BIGINT comment '滤波器组数'
+,WINDTOWER_NUM BIGINT comment '测风塔数量'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '风电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_PV'(
+ID STRING comment '电厂ID'
+,GIRDSUBSTATION STRING comment '并网变电站'
+,INVERTER_NUM BIGINT comment '逆变器台数'
+,ENERGYSTORAGE_NUM BIGINT comment '储能设备台数'
+,ENERGYSTORAGE_CAPACITY BIGINT comment '储能容量'
+,FGROUP_NUM BIGINT comment '滤波器组数'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '光伏电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGSUBSTATION'(
+ID STRING comment 'ID'
+,ASSETID STRING comment '资产ID'
+,STATIONNAME STRING comment '变电站名称'
+,DDJC STRING comment '变电站简称'
+,TYPE STRING comment '类型'
+,VOLTAGELEVEL STRING comment '电压等级'
+,TRANSFORCAPACITY DOUBLE comment '变电容量'
+,ACCESSNETWORK STRING comment '所属电网'
+,DISPATCHORGID STRING comment '调度机构'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '变电站'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_BAY'(
+ID STRING comment '间隔ID'
+,NAME STRING comment '间隔名称'
+,VOLTAGELEVEL STRING comment '电压等级'
+,STATIONID STRING comment '所属厂站'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '间隔'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT'(
+ID STRING comment 'ID'
+,STATIONNAME STRING comment '调度名称'
+,STATIONALIAS STRING comment '简称'
+,STATIONTYPE STRING comment '发电厂类型'
+,VOLTAGELEVEL STRING comment '电压等级'
+,INSTALLEDCAPACITY DOUBLE comment '装机容量'
+,WIRINGTYPE STRING comment '主接线类型'
+,ACCESSPOWERGRID STRING comment '接入电网'
+,GENERATIONCOMPANY STRING comment '所属发电公司'
+,DISPATCHORGID STRING comment '调度机构'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+,REGION DOUBLE comment '行政区划'
+,ALTITUDE DOUBLE comment '海拔'
+,LONGITUDE DOUBLE comment '经度'
+,LATITUDE DOUBLE comment '纬度'
+)comment '发电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_HEAT'(
+ID STRING comment '电厂ID'
+,FUELTYPE STRING comment '燃料类型'
+,COAL_STORAGE_CAPACITY DOUBLE comment '煤场储煤量'
+,INSTALLEDCAPACITY DOUBLE comment '核定装机总容量'
+,BOILER_COUNT BIGINT comment '锅炉台数'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '火电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_HYDRO'(
+ID STRING comment '电厂ID'
+,HYDROPOWER_TYPE STRING comment '水电厂类型'
+,TURBINE_TYPE STRING comment '水轮机类型'
+,DESIGN_HEAD BIGINT comment '设计水头'
+,SMALLEST_HEAD BIGINT comment '最小水头'
+,BIGGEST_HEAD BIGINT comment '最大水头'
+,GUARANTEED BIGINT comment '保证出力（MW）'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '水电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_NUCLEAR'(
+ID STRING comment '电厂ID'
+,INSTALLEDCAPACITY BIGINT comment '核定装机容量（MW）'
+,REACTOR_TYPE STRING comment '反应堆堆型'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '核电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_PUMPEDSTORAGE'(
+ID STRING comment '电厂ID'
+,PUMPINGRATIO BIGINT comment '发抽效率比'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '抽水蓄能电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_WIND'(
+ID STRING comment '电厂ID'
+,GIRDSUBSTATION STRING comment '并网变电站'
+,WINDTURBINES_NUM BIGINT comment '风机台数'
+,FGROUP_NUM BIGINT comment '滤波器组数'
+,WINDTOWER_NUM BIGINT comment '测风塔数量'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '风电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGPLANT_PV'(
+ID STRING comment '电厂ID'
+,GIRDSUBSTATION STRING comment '并网变电站'
+,INVERTER_NUM BIGINT comment '逆变器台数'
+,ENERGYSTORAGE_NUM BIGINT comment '储能设备台数'
+,ENERGYSTORAGE_CAPACITY BIGINT comment '储能容量'
+,FGROUP_NUM BIGINT comment '滤波器组数'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '光伏电厂'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_SGSUBSTATION'(
+ID STRING comment 'ID'
+,ASSETID STRING comment '资产ID'
+,STATIONNAME STRING comment '变电站名称'
+,DDJC STRING comment '变电站简称'
+,TYPE STRING comment '类型'
+,VOLTAGELEVEL STRING comment '电压等级'
+,TRANSFORCAPACITY DOUBLE comment '变电容量'
+,ACCESSNETWORK STRING comment '所属电网'
+,DISPATCHORGID STRING comment '调度机构'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '变电站'
+partitioned by(ds string);
+
+create table if not exists 'DWD_GRID_BAY'(
+ID STRING comment '间隔ID'
+,NAME STRING comment '间隔名称'
+,VOLTAGELEVEL STRING comment '电压等级'
+,STATIONID STRING comment '所属厂站'
+,EFFECTIVETIME DATETIME comment '生效时间'
+,EXPIRYTIME DATETIME comment '失效时间'
+)comment '间隔'
+partitioned by(ds string);
+
